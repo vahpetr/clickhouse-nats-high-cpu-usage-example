@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  bus:
+    image: nats:2.9.21-alpine3.18
+    mem_limit: 128m
+    mem_reservation: 128m
+    cpus: 1
+    command: ["-n", "bus", "-p", "4222"]
+    ports:
+      - "4222:4222"
+
+  db:
+    image: clickhouse/clickhouse-server:23.8.1.2992-alpine
+    mem_limit: 2048m
+    mem_reservation: 2048m
+    cpus: 2
+    user: "501:501"
+    ports:
+      - "8123:8123"
+    volumes:
+      - "./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql"
+      - "./bus.proto:/var/lib/clickhouse/format_schemas/bus.proto"

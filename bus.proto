@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "Bus";
+option go_package = "/bus";
+
+package bus;
+
+message Event {
+  int64 time = 1;
+  string type = 2;
+  string message = 3;
+}
